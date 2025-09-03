@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CTI Muebles — Tienda</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <style>
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#0b1220;color:#e5e7eb;}
+    .card{background:#0f172a;border:1px solid rgba(255,255,255,0.08);border-radius:1rem;box-shadow:0 10px 30px rgba(0,0,0,0.25);}
+    .muted{color:#9ca3af}
+    .input{background:#0b121f;border:1px solid rgba(255,255,255,.1);border-radius:.7rem;padding:.65rem .85rem;outline:none;width:100%;}
+    .btn{background:#d4a373;color:#111827;font-weight:700;padding:.6rem .95rem;border-radius:.7rem;display:inline-flex;align-items:center;gap:.5rem}
+    .btn-ghost{background:transparent;color:#e5e7eb;border:1px solid rgba(255,255,255,.12);padding:.6rem .95rem;border-radius:.7rem}
+    .btn-danger{background:#ef4444;color:#fff}
+    .grid-auto{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}
+    @media (max-width: 1200px){.grid-auto{grid-template-columns:repeat(3,minmax(0,1fr))}}
+    @media (max-width: 900px){.grid-auto{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width: 600px){.grid-auto{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<header class="sticky top-0 z-40 border-b border-white/10 backdrop-blur bg-[#0b1220]/80">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <img src="/favicon.svg" alt="CTI" class="w-8 h-8">
+      <h1 class="text-xl font-extrabold">CTI Muebles</h1>
+    </div>
+    <nav class="flex items-center gap-3">
+      <a href="#catalogo" class="btn-ghost">Catálogo</a>
+      <a href="https://wa.me/549XXXXXXXXXX" target="_blank" class="btn-ghost">WhatsApp</a>
+      <button id="adminBtn" class="btn">Admin</button>
+    </nav>
+  </div>
+</header>
+
+<main class="max-w-7xl mx-auto px-4 py-6">
+  <section class="card p-6 mb-6">
+    <div class="flex flex-col md:flex-row gap-6 items-center">
+      <div class="flex-1">
+        <h2 class="text-3xl md:text-4xl font-extrabold mb-2">Muebles de diseño, hechos para durar</h2>
+        <p class="muted">Líneas limpias, maderas nobles y terminaciones premium. Catálogo actualizado semanalmente.</p>
+        <div class="mt-4 flex gap-2">
+          <a href="#catalogo" class="btn">Ver catálogo</a>
+          <a href="https://wa.me/549XXXXXXXXXX" target="_blank" class="btn-ghost">Hablar con un asesor</a>
+        </div>
+      </div>
+      <div class="flex-1">
+        <img src="https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?q=80&w=1400&auto=format&fit=crop" alt="Hero" class="rounded-xl border border-white/10 shadow-lg">
+      </div>
+    </div>
+  </section>
+
+  <section id="catalogo" class="mb-6">
+    <div class="flex items-center justify-between mb-3">
+      <h3 class="text-xl font-bold">Catálogo</h3>
+      <div class="flex gap-2">
+        <select id="filterCategory" class="input max-w-[200px]">
+          <option value="">Todas las categorías</option>
+          <option>Living</option>
+          <option>Comedor</option>
+          <option>Oficina</option>
+          <option>Exterior</option>
+        </select>
+        <input id="searchInput" class="input max-w-[240px]" placeholder="Buscar por nombre / material">
+      </div>
+    </div>
+    <div id="productsGrid" class="grid-auto"></div>
+  </section>
+
+  <!-- Admin Panel -->
+  <section id="adminPanel" class="card p-6 hidden">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xl font-bold">Administrador</h3>
+      <div>
+        <span id="adminEmailLabel" class="muted mr-2"></span>
+        <button id="signOutBtn" class="btn-ghost">Salir</button>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="card p-4">
+        <h4 class="font-semibold mb-2">Crear / Editar producto</h4>
+        <div class="space-y-2">
+          <input id="pId" class="input" placeholder="(auto)" readonly>
+          <input id="pTitle" class="input" placeholder="Título">
+          <input id="pPrice" type="number" class="input" placeholder="Precio">
+          <input id="pCategory" class="input" placeholder="Categoría (Living/Comedor/Oficina/Exterior)">
+          <input id="pDimensions" class="input" placeholder="Dimensiones (ej: 200x90x75 cm)">
+          <input id="pMaterials" class="input" placeholder="Materiales (ej: petiribí + hierro)">
+          <input id="pFinish" class="input" placeholder="Terminación (ej: aceitado mate)">
+          <input id="pStock" type="number" class="input" placeholder="Stock (opcional)">
+          <div>
+            <label class="muted block mb-1">Imagen</label>
+            <input id="pImage" type="file" class="input">
+            <div id="imagePreview" class="mt-2 text-sm muted"></div>
+          </div>
+          <div class="flex gap-2">
+            <button id="saveBtn" class="btn">Guardar</button>
+            <button id="resetBtn" class="btn-ghost">Limpiar</button>
+          </div>
+          <div id="formMsg" class="muted text-sm"></div>
+        </div>
+      </div>
+
+      <div class="card p-4">
+        <h4 class="font-semibold mb-2">Listado</h4>
+        <div id="adminList" class="space-y-2 text-sm"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Admin Login Modal -->
+<div id="loginModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 items-center justify-center p-4">
+  <div class="card p-5 w-full max-w-md">
+    <div class="flex items-center justify-between mb-2">
+      <h3 class="text-lg font-bold">Ingresar como administrador</h3>
+      <button id="closeLogin" class="btn-ghost">Cerrar</button>
+    </div>
+    <p class="muted text-sm mb-3">Usuario: <b>Nahuel</b> · Clave: <b>45508227</b></p>
+    <div class="space-y-2">
+      <input id="loginEmail" class="input" placeholder="Usuario (Nahuel)">
+      <input id="loginPass" class="input" type="password" value="45508227">
+      <button id="loginBtn" class="btn w-full">Ingresar</button>
+      <div id="loginMsg" class="muted text-sm"></div>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="/app.js"></script>
+</body>
+</html>
