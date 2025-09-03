@@ -14,20 +14,39 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ---- Configuración ----
-const DATA_DIR = process.env.DATA_DIR || '/data';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import fs from 'fs/promises';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Primero intentamos usar /data (Render Disk). Si falla, caemos a ./data junto al server.
+async function resolveDataDir() {
+  const preferred = process.env.DATA_DIR || '/data';
+  try {
+    await fs.mkdir(preferred, { recursive: true });
+    return preferred; // existe o se pudo crear
+  } catch (e) {
+    // sin permisos para /data => usamos local ./data
+    const fallback = path.join(__dirname, 'data');
+    await fs.mkdir(fallback, { recursive: true });
+    return fallback;
+  }
+}
+
+const DATA_DIR = await resolveDataDir();
 const UPLOADS_DIR = path.join(DATA_DIR, 'uploads');
 const DB_FILE = path.join(DATA_DIR, 'data.json');
-const ADMIN_USER = process.env.ADMIN_USER || 'Nahuel';
-const ADMIN_PASS = process.env.ADMIN_PASS || '45508227';
-const JWT_SECRET = process.env.JWT_SECRET || 'change-me-super-secret';
 
-await fs.mkdir(DATA_DIR, { recursive: true }).catch(()=>{});
-await fs.mkdir(UPLOADS_DIR, { recursive: true }).catch(()=>{});
+await fs.mkdir(UPLOADS_DIR, { recursive: true });
+// si no existe data.json, crealo
 try {
   await fs.access(DB_FILE);
 } catch {
   await fs.writeFile(DB_FILE, JSON.stringify({ products: [] }, null, 2));
 }
+
 
 // ---- Middlewares ----
 app.use(cors());
