@@ -13,14 +13,8 @@
     body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#0b1220;color:#e5e7eb;}
     .card{background:#0f172a;border:1px solid rgba(255,255,255,0.08);border-radius:1rem;box-shadow:0 10px 30px rgba(0,0,0,0.25);}
     .muted{color:#9ca3af}
-    .input{background:#0b121f;border:1px solid rgba(255,255,255,.1);border-radius:.7rem;padding:.65rem .85rem;outline:none;width:100%;}
     .btn{background:#d4a373;color:#111827;font-weight:700;padding:.6rem .95rem;border-radius:.7rem;display:inline-flex;align-items:center;gap:.5rem}
     .btn-ghost{background:transparent;color:#e5e7eb;border:1px solid rgba(255,255,255,.12);padding:.6rem .95rem;border-radius:.7rem}
-    .btn-danger{background:#ef4444;color:#fff}
-    .grid-auto{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}
-    @media (max-width: 1200px){.grid-auto{grid-template-columns:repeat(3,minmax(0,1fr))}}
-    @media (max-width: 900px){.grid-auto{grid-template-columns:repeat(2,minmax(0,1fr))}}
-    @media (max-width: 600px){.grid-auto{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -39,6 +33,7 @@
 </header>
 
 <main class="max-w-7xl mx-auto px-4 py-6">
+  <!-- Hero -->
   <section class="card p-6 mb-6">
     <div class="flex flex-col md:flex-row gap-6 items-center">
       <div class="flex-1">
@@ -55,24 +50,20 @@
     </div>
   </section>
 
+  <!-- Catálogo desde Canva -->
   <section id="catalogo" class="mb-6">
-    <div class="flex items-center justify-between mb-3">
-      <h3 class="text-xl font-bold">Catálogo</h3>
-      <div class="flex gap-2">
-        <select id="filterCategory" class="input max-w-[200px]">
-          <option value="">Todas las categorías</option>
-          <option>Living</option>
-          <option>Comedor</option>
-          <option>Oficina</option>
-          <option>Exterior</option>
-        </select>
-        <input id="searchInput" class="input max-w-[240px]" placeholder="Buscar por nombre / material">
-      </div>
-    </div>
-    <div id="productsGrid" class="grid-auto"></div>
+    <h3 class="text-xl font-bold mb-3">Catálogo</h3>
+    <iframe
+      src="https://www.canva.com/design/TU-LINK-DE-CANVA/view?embed"
+      width="100%"
+      height="900"
+      style="border:none; border-radius:1rem;"
+      allowfullscreen="true"
+      loading="lazy">
+    </iframe>
   </section>
 
-  <!-- Admin Panel -->
+  <!-- Admin Panel (si querés seguir usándolo) -->
   <section id="adminPanel" class="card p-6 hidden">
     <div class="flex items-center justify-between mb-4">
       <h3 class="text-xl font-bold">Administrador</h3>
@@ -81,37 +72,7 @@
         <button id="signOutBtn" class="btn-ghost">Salir</button>
       </div>
     </div>
-
-    <div class="grid md:grid-cols-2 gap-4">
-      <div class="card p-4">
-        <h4 class="font-semibold mb-2">Crear / Editar producto</h4>
-        <div class="space-y-2">
-          <input id="pId" class="input" placeholder="(auto)" readonly>
-          <input id="pTitle" class="input" placeholder="Título">
-          <input id="pPrice" type="number" class="input" placeholder="Precio">
-          <input id="pCategory" class="input" placeholder="Categoría (Living/Comedor/Oficina/Exterior)">
-          <input id="pDimensions" class="input" placeholder="Dimensiones (ej: 200x90x75 cm)">
-          <input id="pMaterials" class="input" placeholder="Materiales (ej: petiribí + hierro)">
-          <input id="pFinish" class="input" placeholder="Terminación (ej: aceitado mate)">
-          <input id="pStock" type="number" class="input" placeholder="Stock (opcional)">
-          <div>
-            <label class="muted block mb-1">Imagen</label>
-            <input id="pImage" type="file" class="input">
-            <div id="imagePreview" class="mt-2 text-sm muted"></div>
-          </div>
-          <div class="flex gap-2">
-            <button id="saveBtn" class="btn">Guardar</button>
-            <button id="resetBtn" class="btn-ghost">Limpiar</button>
-          </div>
-          <div id="formMsg" class="muted text-sm"></div>
-        </div>
-      </div>
-
-      <div class="card p-4">
-        <h4 class="font-semibold mb-2">Listado</h4>
-        <div id="adminList" class="space-y-2 text-sm"></div>
-      </div>
-    </div>
+    <p class="muted">El catálogo ahora viene directo de Canva. El panel lo podés usar para otras configuraciones si querés.</p>
   </section>
 </main>
 
@@ -135,3 +96,4 @@
 <script type="module" src="/app.js"></script>
 </body>
 </html>
+
